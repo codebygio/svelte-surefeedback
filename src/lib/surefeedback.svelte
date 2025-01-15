@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { browser } from '$app/environment';
+	import { BROWSER } from 'esm-env';
 
 	interface SureFeedbackProps {
 		url: string;
@@ -147,7 +147,7 @@
 	}
 
 	function cleanupScript(): void {
-		if (browser) {
+		if (BROWSER) {
 			const script = document.getElementById(scriptId);
 			if (script && script.parentNode) {
 				script.parentNode.removeChild(script);
@@ -158,20 +158,20 @@
 	}
 
 	onMount(() => {
-		if (browser && enabled && url) {
+		if (BROWSER && enabled && url) {
 			log('Initializing SureFeedback');
 			loadHuddleScript();
 		}
 
 		return () => {
-			if (browser && enabled) {
+			if (BROWSER && enabled) {
 				cleanupScript();
 			}
 		};
 	});
 </script>
 
-{#if browser && enabled}
+{#if BROWSER && enabled}
 	{#if validationError}
 		<div
 			role="alert"
